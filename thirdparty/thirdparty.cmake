@@ -10,7 +10,7 @@ if((NOT ASSIMP_LIBRARY) OR (NOT ASSIMP_INCLUDE_DIR))
 	set(ASSIMP_DIR "${THIRDPARTY_DIR}/assimp")
 	
 	message("Unable to find assimp, cloning...")
-    execute_process(COMMAND git submodule update --init -- "${ASSIMP_DIR}"
+    execute_process(COMMAND git submodule update --init ${ASSIMP_DIR}
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 	set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "Build package with shared libraries.")
@@ -33,7 +33,7 @@ if((NOT GLFW_LIBRARY) OR (NOT GLFW_INCLUDE_DIR))
 	set(GLFW_DIR "${THIRDPARTY_DIR}/glfw")
 
 	message("Unable to find glfw, cloning...")
-    execute_process(COMMAND git submodule update --init -- "${GLFW_DIR}"
+    execute_process(COMMAND git submodule update --init ${GLFW_DIR}
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 	set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
@@ -57,10 +57,16 @@ set(GLAD_INCLUDE_DIR "${GLAD_DIR}/include")
 
 # glm
 set(GLM_DIR "${THIRDPARTY_DIR}/glm")
+execute_process(COMMAND git submodule update --init ${GLM_DIR}
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
 set(GLM_INCLUDE_DIR "${GLM_DIR}")
 
 # imgui
 set(IMGUI_DIR "${THIRDPARTY_DIR}/imgui")
+execute_process(COMMAND git submodule update --init ${IMGUI_DIR}
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+					
 add_library("imgui" STATIC "${IMGUI_DIR}/imgui.cpp"
 					"${IMGUI_DIR}/imgui_demo.cpp"
 					"${IMGUI_DIR}/imgui_draw.cpp"
