@@ -33,3 +33,6 @@ Jeżeli korzystamy z IDE Clion (jest darmowa licencja dla studentów) lub Visual
 W obu przypadkach powinno pojawić się okienko, w którym renderowane jest przykładowe GUI za pomocą biblioteki ImGUI. 
 
 __Dokumentacja__ ImGUI znajduje się w pliku _thirdparty/imgui/imgui.cpp_.
+
+Widok poprawnie zbudowanej i uruchomionej przykładowej aplikacji:
+![Przykładowe okienko po poprawnym zbudowaniu projektu i uruchomieniu aplikacji](example.png)
