@@ -1,3 +1,5 @@
+[![Build Status](https://github.com/Shot511/OpenGLPAG/actions/workflows/cpp_cmake.yml/badge.svg)](https://github.com/Shot511/OpenGLPAG/actions)
+
 # OpenGLPAG
 
 Najszybszym sposobem na zaczęcie przygody z OpenGL jest pobranie projektu opartego na CMake, który sam ściągnie odpowiednie biblioteki, dołączy je do projektu i odpowiednio skonfiguruje środowisko programistyczne. 
