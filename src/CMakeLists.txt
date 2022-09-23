@@ -10,26 +10,25 @@ file(GLOB_RECURSE HEADER_FILES
 
 # Define the executable
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
-# Define the include DIRs
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(${PROJECT_NAME} PUBLIC "${ASSIMP_INCLUDE_DIR}")
-target_include_directories(${PROJECT_NAME} PUBLIC "${GLFW_INCLUDE_DIR}")
-target_include_directories(${PROJECT_NAME} PUBLIC "${GLAD_INCLUDE_DIR}")
-target_include_directories(${PROJECT_NAME} PUBLIC "${GLM_INCLUDE_DIR}")
-target_include_directories(${PROJECT_NAME} PUBLIC "${IMGUI_INCLUDE_DIR}")
-target_include_directories(${PROJECT_NAME} PUBLIC "${STB_IMAGE_INCLUDE_DIR}")
-
-target_link_libraries(${PROJECT_NAME} "${OPENGL_LIBRARY}")
-target_link_libraries(${PROJECT_NAME} "${ASSIMP_LIBRARY}")
-target_link_libraries(${PROJECT_NAME} "${GLFW_LIBRARY}")
-target_link_libraries(${PROJECT_NAME} "${GLAD_LIBRARY}"      "${CMAKE_DL_LIBS}")
-target_link_libraries(${PROJECT_NAME} "${IMGUI_LIBRARY}"     "${CMAKE_DL_LIBS}")
-target_link_libraries(${PROJECT_NAME} "${STB_IMAGE_LIBRARY}" "${CMAKE_DL_LIBS}")
-
+target_compile_features   (${PROJECT_NAME} PRIVATE cxx_std_20)
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
 target_compile_definitions(${PROJECT_NAME} PRIVATE LIBRARY_SUFFIX="")
+
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${GLAD_LIBRARY}      ${CMAKE_DL_LIBS})
+target_link_libraries(${PROJECT_NAME} ${STB_IMAGE_LIBRARY} ${CMAKE_DL_LIBS})
+target_link_libraries(${PROJECT_NAME} assimp)
+target_link_libraries(${PROJECT_NAME} glfw)
+target_link_libraries(${PROJECT_NAME} imgui)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${assimp_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${glfw_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${GLAD_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${glm_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${imgui_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${STB_IMAGE_INCLUDE_DIR})
 
 add_custom_command(TARGET  ${PROJECT_NAME} POST_BUILD
 				   COMMAND ${CMAKE_COMMAND} -E copy_directory
