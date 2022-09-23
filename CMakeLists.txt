@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 project(OpenGLGP VERSION 2.0)
 
+IF (WIN32)
+  message(NOTICE "\n")
+  message(NOTICE "********************** IMPORTANT NOTICE ****************************\n")
+  message(NOTICE "Make sure you have enabled Developer Mode in your system settings!")
+  message(NOTICE "To enable Developer Mode go to Settings -> Update & Security -> For developers -> Developer Mode ON")
+  message(NOTICE "\n********************************************************************")
+  message(NOTICE "\n")
+ENDIF()
+
 # ---- Set flags ----
 
 set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
