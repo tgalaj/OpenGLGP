@@ -21,9 +21,7 @@ git clone --recursive https://github.com/Shot511/OpenGLPAG.git
 
 Następnie za pomocą linii komend, wchodzimy do folderu _OpenGLPAG_ i wywołujemy następujące polecenia:
 ```
-mkdir Build
-cd Build
-cmake ..
+cmake -B build
 ```
 
 Te polecenia stworzą w folderze Build solucję Visual Studio 2019 (zakładając, że działamy na komputerze wyposażonym w system Windows i IDE Visual Studio 2019).
