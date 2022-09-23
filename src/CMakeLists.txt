@@ -21,6 +21,7 @@ target_link_libraries(${PROJECT_NAME} ${STB_IMAGE_LIBRARY} ${CMAKE_DL_LIBS})
 target_link_libraries(${PROJECT_NAME} assimp)
 target_link_libraries(${PROJECT_NAME} glfw)
 target_link_libraries(${PROJECT_NAME} imgui)
+target_link_libraries(${PROJECT_NAME} spdlog)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${assimp_SOURCE_DIR})
@@ -28,12 +29,13 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${glfw_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${GLAD_INCLUDE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${glm_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${imgui_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${spdlog_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${STB_IMAGE_INCLUDE_DIR})
 
-add_custom_command(TARGET  ${PROJECT_NAME} POST_BUILD
-				   COMMAND ${CMAKE_COMMAND} -E copy_directory
-						   ${CMAKE_SOURCE_DIR}/res
-						   ${CMAKE_CURRENT_BINARY_DIR}/res)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
+				   COMMAND ${CMAKE_COMMAND} -E create_symlink 
+				   ${CMAKE_SOURCE_DIR}/res 
+				   ${CMAKE_CURRENT_BINARY_DIR}/res)
 
 # Create virtual folders to make it look nicer in VS
 if(MSVC_IDE)

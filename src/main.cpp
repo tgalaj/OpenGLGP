@@ -23,6 +23,7 @@
 #endif
 
 #include <GLFW/glfw3.h> // Include glfw3.h after our OpenGL definitions
+#include <spdlog/spdlog.h>
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -70,9 +71,10 @@ int main(int, char**)
 #endif
     if (err)
     {
-        fprintf(stderr, "Failed to initialize OpenGL loader!\n");
+        spdlog::error("Failed to initialize OpenGL loader!");
         return 1;
     }
+    spdlog::info("Successfully initialized OpenGL loader!");
 
     // Setup Dear ImGui binding
     IMGUI_CHECKVERSION();
