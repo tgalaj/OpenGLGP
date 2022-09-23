@@ -16,7 +16,7 @@ __UWAGA:__ Należy pamiętać również o sciągnięciu submodułów (_git submo
 
 Klonowanie repozytorium (razem z submodułami) odbywa się poprzez wywołanie polecenia:
 ```
-git clone --recursive https://github.com/Shot511/OpenGLPAG.git
+git clone https://github.com/Shot511/OpenGLPAG.git
 ```
 
 Następnie za pomocą linii komend, wchodzimy do folderu _OpenGLPAG_ i wywołujemy następujące polecenia:
