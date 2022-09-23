@@ -10,21 +10,19 @@ Zanim zaczniemy będą nam potrzebne takie rzeczy jak:
 * Zainstalowany program [CMake](https://cmake.org/download/) (należy pamiętać, aby podczas instalacji, dodać CMake do zmiennej PATH).
 * Zainstalowany program [Git](https://git-scm.com/downloads).
 
-Kiedy jesteśmy już zaopatrzeni w ww. narzędzia, możemy ściągnąć lub sklonować repozytorium OpenGLPAG, które znajduje się pod tym [linkiem](https://github.com/Shot511/OpenGLPAG).
+Kiedy jesteśmy już zaopatrzeni w ww. narzędzia, możemy ściągnąć lub sklonować repozytorium OpenGLPAG.
 
-__UWAGA:__ Należy pamiętać również o sciągnięciu submodułów (_git submodules_)!!
-
-Klonowanie repozytorium (razem z submodułami) odbywa się poprzez wywołanie polecenia:
+Klonowanie repozytorium odbywa się poprzez wywołanie polecenia:
 ```
 git clone https://github.com/Shot511/OpenGLPAG.git
 ```
 
-Następnie za pomocą linii komend, wchodzimy do folderu _OpenGLPAG_ i wywołujemy następujące polecenia:
+Następnie za pomocą linii komend, wchodzimy do folderu _OpenGLPAG_ i wywołujemy następujące polecenie:
 ```
-cmake -B build
+cmake -B Build
 ```
 
-Te polecenia stworzą w folderze Build solucję Visual Studio 2019 (zakładając, że działamy na komputerze wyposażonym w system Windows i IDE Visual Studio 2019).
+To polecenie stworzy w folderze Build solucję Visual Studio 2019 (zakładając, że działamy na komputerze wyposażonym w system Windows i IDE Visual Studio 2019).
 
 By uruchomić projekt za pomocą VS 2019, wchodzimy do folderu _Build_, otwieramy solucję _OpenGLPAG.sln_. Następnie, klikamy prawym przyciskiem myszy na projekcie _OpenGLPAG_ i wybieramy opcję _Ustaw jako projekt domyślny / Set as a startup project_. Następnie budujemy i uruchamiamy aplikację.
 
