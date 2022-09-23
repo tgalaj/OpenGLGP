@@ -1,5 +1,16 @@
 cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
-project(OpenGLPAG VERSION 2.0)
+project(OpenGL_GP VERSION 2.0)
+
+# ---- Set flags ----
+
+set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
+set(GLFW_BUILD_TESTS    OFF CACHE INTERNAL "Build the GLFW test programs")
+set(GLFW_BUILD_DOCS     OFF CACHE INTERNAL "Build the GLFW documentation")
+set(GLFW_INSTALL        OFF CACHE INTERNAL "Generate installation target")
+
+set(BUILD_SHARED_LIBS         OFF CACHE INTERNAL "Build package with shared libraries.")
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE INTERNAL "If the supplementary tools for Assimp are built in addition to the library.")
+set(ASSIMP_BUILD_TESTS        OFF CACHE INTERNAL "If the test suite for Assimp is built in addition to the library.")
 
 set(THIRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty)
 
@@ -38,17 +49,6 @@ add_library(imgui STATIC ${imgui_SOURCE_DIR}/imgui.cpp
 					     ${imgui_SOURCE_DIR}/imgui_draw.cpp
 						 ${imgui_SOURCE_DIR}/imgui_tables.cpp
 					     ${imgui_SOURCE_DIR}/imgui_widgets.cpp)
-
-# ---- Set flags ----
-
-set(GLFW_BUILD_EXAMPLES OFF CACHE INTERNAL "Build the GLFW example programs")
-set(GLFW_BUILD_TESTS    OFF CACHE INTERNAL "Build the GLFW test programs")
-set(GLFW_BUILD_DOCS     OFF CACHE INTERNAL "Build the GLFW documentation")
-set(GLFW_INSTALL        OFF CACHE INTERNAL "Generate installation target")
-
-set(BUILD_SHARED_LIBS         OFF CACHE INTERNAL "Build package with shared libraries.")
-set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE INTERNAL "If the supplementary tools for Assimp are built in addition to the library.")
-set(ASSIMP_BUILD_TESTS        OFF CACHE INTERNAL "If the test suite for Assimp is built in addition to the library.")
 
 # ---- Add subdirectories ----
 add_subdirectory(src)
