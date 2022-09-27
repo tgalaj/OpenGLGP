@@ -36,5 +36,4 @@ set_target_properties(glad
 					  glfw 
 					  glm 
 					  imgui 
-					  spdlog
-					  zlibstatic PROPERTIES FOLDER "thirdparty")
+					  spdlog PROPERTIES FOLDER "thirdparty")
