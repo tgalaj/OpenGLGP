@@ -31,13 +31,9 @@ add_library(imgui STATIC ${imgui_SOURCE_DIR}/imgui.cpp
 					     ${imgui_SOURCE_DIR}/imgui_widgets.cpp)
 						 
 set_target_properties(glad
-					  stb_image 
-					  assimp 
-					  glfw 
-					  glm 
-					  imgui 
-					  spdlog PROPERTIES FOLDER "thirdparty")
-
-IF(NOT ZLIB_FOUND)
-	set_target_properties(zlibstatic PROPERTIES FOLDER "thirdparty")
-ENDIF()
+                      stb_image 
+                      assimp 
+                      glfw 
+                      glm 
+                      imgui 
+                      spdlog PROPERTIES FOLDER "thirdparty")
