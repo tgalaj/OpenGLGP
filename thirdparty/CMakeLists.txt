@@ -37,3 +37,7 @@ set_target_properties(glad
 					  glm 
 					  imgui 
 					  spdlog PROPERTIES FOLDER "thirdparty")
+
+IF(NOT ZLIB_FOUND)
+	set_target_properties(zlibstatic PROPERTIES FOLDER "thirdparty")
+ENDIF()
