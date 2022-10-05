@@ -14,12 +14,7 @@ Kiedy jesteśmy już zaopatrzeni w ww. narzędzia, możemy ściągnąć lub sklo
 
 **UWAGA**: Użytkownicy systemu **Windows 10/11** powinni upewnić się, czy mają włączony **Tryb programisty (Developer Mode)**.
 
-Klonowanie repozytorium odbywa się poprzez wywołanie polecenia:
-```
-git clone https://github.com/Shot511/OpenGLGP.git
-```
-
-Następnie za pomocą linii komend, wchodzimy do folderu _OpenGLGP_ i wywołujemy następujące polecenie:
+Aby zbudować projekt, wchodzimy do folderu _OpenGLGP_ i wywołujemy następujące polecenie:
 ```
 cmake -B Build
 ```
