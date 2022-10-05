@@ -1,4 +1,5 @@
 [![Build Status](https://github.com/Shot511/OpenGLGP/actions/workflows/cpp_cmake.yml/badge.svg)](https://github.com/Shot511/OpenGLGP/actions)
+![](../../actions/workflows/<workflowname>/badge.svg)
 
 # OpenGLGP
 
