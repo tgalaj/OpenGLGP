@@ -1,4 +1,4 @@
-![](../../actions/workflows/cpp_cmake.yml/badge.svg)
+[![](../../actions/workflows/cpp_cmake.yml/badge.svg)](../../actions)
 
 # OpenGLGP
 
