@@ -1,15 +1,15 @@
 # Add source files
-file(GLOB_RECURSE SOURCE_FILES 
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
 	 *.c
 	 *.cpp)
 	
 # Add header files
-file(GLOB_RECURSE HEADER_FILES 
+file(GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS
 	 *.h
 	 *.hpp)
 	 
 # Search for the assets files
-file(GLOB_RECURSE ASSETS_FILES 
+file(GLOB_RECURSE ASSETS_FILES CONFIGURE_DEPENDS
 	 ${CMAKE_SOURCE_DIR}/res/*.*)
 
 set_source_files_properties(${ASSETS_FILES} PROPERTIES HEADER_FILE_ONLY TRUE)
