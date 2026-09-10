@@ -1,0 +1,131 @@
+name: CI Fast
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-fast-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  BUILD_DIR: build/ci
+  CPM_SOURCE_CACHE: ${{ github.workspace }}/.cache/cpm
+
+jobs:
+  ubuntu:
+    name: Ubuntu configure, build and test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install build and validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            ccache \
+            glslang-tools \
+            libgl1-mesa-dev \
+            ninja-build \
+            pkg-config \
+            xorg-dev
+
+      - name: Restore CPM and compiler caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            .cache/cpm
+            ~/.cache/ccache
+          key: ${{ runner.os }}-ci-${{ hashFiles('CMakeLists.txt', '**/CMakeLists.txt', 'cmake/**', 'CMakePresets.json') }}
+          restore-keys: |
+            ${{ runner.os }}-ci-
+
+      - name: Check required project files
+        run: |
+          mkdir -p artifacts/fast
+          python3 tools/ci/check_required_files.py \
+            CMakeLists.txt \
+            CMakePresets.json \
+            README.md \
+            .assignments/README.md \
+            .assignments/Zasady_zaliczenia.md \
+            src/CMakeLists.txt \
+            src/main.cpp \
+            cmake/CPM.cmake \
+            res | tee artifacts/fast/required-files.log
+
+      - name: Validate non-empty GLSL shaders
+        run: |
+          set -o pipefail
+          python3 tools/ci/validate_shaders.py . \
+            2>&1 | tee artifacts/fast/shaders.log
+
+      - name: Configure and build
+        run: |
+          set -o pipefail
+          bash tools/ci/cmake-build.sh \
+            2>&1 | tee artifacts/fast/configure-build.log
+
+      - name: Run CTest
+        run: |
+          set -o pipefail
+          bash tools/ci/run-ctest.sh \
+            2>&1 | tee artifacts/fast/ctest.log
+
+      - name: Upload failure logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-fast-ubuntu-logs
+          path: artifacts/fast
+          if-no-files-found: warn
+          retention-days: 7
+
+  msvc:
+    name: MSVC build
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    runs-on: windows-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Restore CPM cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/cpm
+          key: ${{ runner.os }}-cpm-${{ hashFiles('CMakeLists.txt', '**/CMakeLists.txt', 'cmake/**', 'CMakePresets.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cpm-
+
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure and build with MSVC
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts/fast | Out-Null
+          & tools/ci/cmake-build.ps1 *>&1 |
+            Tee-Object -FilePath artifacts/fast/configure-build-msvc.log
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
+      - name: Upload failure logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-fast-msvc-logs
+          path: artifacts/fast
+          if-no-files-found: warn
+          retention-days: 7
