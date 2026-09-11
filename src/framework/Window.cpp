@@ -35,8 +35,7 @@ bool debugContextWanted() noexcept
 bool defaultFramebufferIsSrgb(GLFWwindow* window)
 {
 #if defined(_WIN32)
-    using WglGetPixelFormatAttribiv =
-        BOOL(WINAPI*)(HDC, int, int, UINT, const int*, int*);
+    using WglGetPixelFormatAttribiv = BOOL(WINAPI*)(HDC, int, int, UINT, const int*, int*);
     constexpr int wglFramebufferSrgbCapable = 0x20A9;
 
     const HWND nativeWindow = glfwGetWin32Window(window);
@@ -44,8 +43,7 @@ bool defaultFramebufferIsSrgb(GLFWwindow* window)
     if (deviceContext != nullptr)
     {
         const int pixelFormat = GetPixelFormat(deviceContext);
-        const auto queryPixelFormat = reinterpret_cast<WglGetPixelFormatAttribiv>(
-            wglGetProcAddress("wglGetPixelFormatAttribivARB"));
+        const auto queryPixelFormat = reinterpret_cast<WglGetPixelFormatAttribiv>(wglGetProcAddress("wglGetPixelFormatAttribivARB"));
         bool queried = false;
         bool srgbCapable = false;
         if (queryPixelFormat != nullptr)
@@ -106,25 +104,17 @@ std::unique_ptr<Window> Window::create(const RunConfig& config, std::string& err
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
     glfwWindowHint(GLFW_SRGB_CAPABLE, GLFW_TRUE);
-    glfwWindowHint(
-        GLFW_OPENGL_DEBUG_CONTEXT,
-        result->debugContextRequested_ ? GLFW_TRUE : GLFW_FALSE);
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, result->debugContextRequested_ ? GLFW_TRUE : GLFW_FALSE);
     if (config.diagnostics)
     {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     }
 
-    result->handle_ = glfwCreateWindow(
-        RunConfig::defaultWidth,
-        RunConfig::defaultHeight,
-        "OpenGLGP",
-        nullptr,
-        nullptr);
+    result->handle_ = glfwCreateWindow(RunConfig::defaultWidth, RunConfig::defaultHeight, "OpenGLGP", nullptr, nullptr);
     if (result->handle_ == nullptr)
     {
-        error =
-            "Could not create an OpenGL 4.5 Core window. "
-            "A desktop OpenGL 4.5-capable GPU and current driver are required.";
+        error = "Could not create an OpenGL 4.5 Core window. "
+                "A desktop OpenGL 4.5-capable GPU and current driver are required.";
         return nullptr;
     }
 
@@ -146,9 +136,8 @@ std::unique_ptr<Window> Window::create(const RunConfig& config, std::string& err
 
     if (major < 4 || (major == 4 && minor < 5))
     {
-        error =
-            "OpenGL 4.5 Core is required, but the created context reports " +
-            std::to_string(major) + '.' + std::to_string(minor) + '.';
+        error = "OpenGL 4.5 Core is required, but the created context reports " +
+                std::to_string(major) + '.' + std::to_string(minor) + '.';
         return nullptr;
     }
     if ((profile & GL_CONTEXT_CORE_PROFILE_BIT) == 0)

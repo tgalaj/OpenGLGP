@@ -20,11 +20,7 @@ void Project::render(const framework::FrameContext& frame)
     glScissor(0, 0, halfWidth, frame.framebufferHeight);
     glClearColor(0.07f, 0.12f, 0.20f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    glScissor(
-        halfWidth,
-        0,
-        static_cast<GLsizei>(frame.framebufferWidth - halfWidth),
-        frame.framebufferHeight);
+    glScissor(halfWidth, 0, static_cast<GLsizei>(frame.framebufferWidth - halfWidth), frame.framebufferHeight);
     glClearColor(0.16f, 0.08f, 0.18f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_SCISSOR_TEST);

@@ -52,9 +52,7 @@ void testInvalidArguments()
 
 void testDiagnosticsJsonImpliesDiagnostics()
 {
-    const std::vector<std::string_view> arguments{
-        "--diagnostics-json",
-        "diagnostics/report.json"};
+    const std::vector<std::string_view> arguments{"--diagnostics-json", "diagnostics/report.json"};
     const auto result = parseRunConfig(arguments);
     expect(static_cast<bool>(result), "diagnostics JSON command line should parse");
     expect(result.config.diagnostics, "diagnostics JSON should enable diagnostics mode");

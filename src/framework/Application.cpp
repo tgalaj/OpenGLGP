@@ -144,8 +144,7 @@ ExitCode Application::run()
             const bool uiWantsKeyboard = io.WantCaptureKeyboard;
 
             const auto currentTime = std::chrono::steady_clock::now();
-            const double measuredDelta =
-                std::chrono::duration<double>(currentTime - previousTime).count();
+            const double measuredDelta = std::chrono::duration<double>(currentTime - previousTime).count();
             previousTime = currentTime;
             const double deltaSeconds = std::clamp(measuredDelta, 0.0, 0.25);
             elapsedSeconds += deltaSeconds;

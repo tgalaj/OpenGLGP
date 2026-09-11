@@ -1,122 +1,157 @@
 # `<nazwa świata>`
 
-> To jest szablon README projektu studenckiego. Repozytorium jest tworzone
-> automatycznie w organizacji `lut-it-graphics-programming` pod nazwą
-> `gp-{rok}-{login GitHub}-{numer indeksu}`. Po zaakceptowaniu zaproszenia
-> zastąp pola `<...>`, usuń niepasujące warianty i aktualizuj dokument wraz
-> z rozwojem świata. README ma pozwolić prowadzącemu zbudować, uruchomić
-> i sprawdzić zgłoszony commit bez odgadywania konfiguracji.
+Dokumentacja projektu OpenGL. Zastąp pola `<...>` informacjami właściwymi dla projektu i usuń nieużywane sekcje.
 
 ## Świat
 
-- Autor: `<imię i nazwisko albo identyfikator wymagany przez prowadzącego>`
-- Biome: `<numer i nazwa biome'u>`
-- Seed świata: `<seed używany przez aplikację>`
-- Sposób wyznaczenia seeda, jeśli nie jest bezpośredni: `<opis albo nie dotyczy>`
-- Reroll: `<nie / tak — pierwotny biome i zatwierdzona zmiana>`
+- Autor: `<imię i nazwisko>`
+- Biom: `<nazwa>`
+- Ziarno generatora: `<wartość>`
+- Sposób wyznaczenia ziarna: `<opis albo nie dotyczy>`
 - Krótki opis świata: `<2–4 zdania>`
 
-## Karta semestralna
+### Opcjonalne rozszerzenie
 
-Jeśli realizujesz kartę semestralną, wybierz ją samodzielnie i wpisz tutaj najpóźniej do końca 6. tygodnia. Własna karta lub zmieniony zakres wymagają wcześniejszej akceptacji prowadzącego.
+- Nazwa: `<nazwa rozszerzenia albo brak>`
+- Włączanie i wyłączanie: `<kontrolka lub klawisz>`
+- Parametry: `<lista kontrolek>`
+- Tryby diagnostyczne: `<lista>`
+- Ograniczenia: `<opis albo brak>`
 
-- Karta: `<nazwa / nie realizuję>`
-- Poziom: `<1★ / 2★ / 3★ / nie dotyczy>`
-- Status: `<wybrana / zaakceptowana / w trakcie / gotowa do obrony / nie realizuję>`
-- Uzgodniona zmiana zakresu: `<opis i data akceptacji / nie dotyczy>`
-- Finalny zakres: `<krótkie podsumowanie>`
-- Przełącznik porównania z baseline'em: `<kontrolka lub klawisz>`
-- Diagnostyka: `<tryb podglądu, pass, zasób lub licznik>`
-- Pomiar, jeśli wymagany: `<metoda i wynik>`
-- Dowody: `<ścieżki do obrazów, capture RenderDoc, nagranie lub opis miejsca w aplikacji>`
+## Wymagania środowiskowe
 
-Karta jest opcjonalna i oceniana pass/fail dopiero podczas obrony końcowej. Nie zastępuje obowiązkowego rdzenia zadań.
+Projekt wspiera:
 
-## Wspierane środowisko
+- Windows albo Linux;
+- OpenGL 4.5 Core Profile;
+- GLSL 450;
+- CMake 3.21 lub nowszy;
+- kompilator obsługujący C++20.
 
-Oficjalny baseline:
+Wymagany jest również Git do pobrania repozytorium.
 
-- fizyczny komputer z Windows albo Linux,
-- OpenGL 4.5 Core Profile,
-- GLSL 450,
-- CMake 3.21 lub nowszy i kompilator obsługujący C++20.
+## Szybki start
 
-OpenGL 4.6 może być używane opcjonalnie, ale projekt musi zachować ścieżkę OpenGL 4.5/GLSL 450. macOS i maszyny wirtualne nie są wspierane; alternatywą jest komputer w laboratorium albo uzgodniony zdalny dostęp do fizycznej maszyny.
-
-Konfiguracja użyta przez autora:
-
-- System: `<Windows/Linux i wersja>`
-- CPU: `<model>`
-- GPU: `<model>`
-- Sterownik: `<wersja>`
-- CMake: `<wersja>`
-- Kompilator: `<nazwa i wersja>`
-
-## Diagnostyka przed pracą
-
-Po pierwszym buildzie, przed rozpoczęciem implementacji, uruchom:
-
-```text
-<ścieżka-do-programu>/OpenGLGP --diagnostics
-```
-
-Najważniejsze wartości z raportu:
-
-- `GL_VENDOR`: `<wartość>`
-- `GL_RENDERER`: `<wartość>`
-- `GL_VERSION`: `<wartość>`
-- `GL_SHADING_LANGUAGE_VERSION`: `<wartość>`
-- Profil i debug context: `<wartość>`
-- Domyślny framebuffer sRGB: `<tak/nie>`
-- Baseline OpenGL 4.5 Core/GLSL 450: `<spełniony/niespełniony>`
-
-Nie rozpoczynaj pracy na środowisku, które nie potwierdza baseline'u. Szczegóły: [CI i oddawanie zadań](.assignments/CI_i_oddawanie.md).
-
-## Struktura template'u
-
-- `src/framework/` — dostarczona infrastruktura okna, pętli i diagnostyki;
-- `src/project/` — punkt startowy kodu rozwijanego w zadaniach;
-- `res/` — shadery, modele i tekstury świata;
-- `tests/` — testy kodu CPU;
-- `.assignments/` — treść i zasady zadań.
-
-Kod dostarczony w `src/framework/` nie jest zaliczany do pakietu Modern OpenGL
-studenta. Oceniane są rozwiązania dodane lub świadomie przebudowane w ramach
-projektu. Strukturę `src/project/` można rozwijać i dzielić na kolejne moduły.
-
-## Budowanie
-
-Repozytorium studenckie powinno utrzymywać wersjonowane presety CMake dla wspieranej konfiguracji. Szablon udostępnia presety `dev`, `debug`, `release` i `ci`; jeśli zmienisz ich nazwy albo znaczenie, zaktualizuj ten rozdział. Nie commituj lokalnego `CMakeUserPresets.json`, katalogu `build` ani plików IDE.
-
-Dostępne presety:
-
-- codzienna praca: `dev`;
-- jawny build Debug: `debug`;
-- build Release: `release`;
-- build i testy w CI: `ci`.
+Po sklonowaniu repozytorium przejdź do jego głównego katalogu:
 
 ```text
 git clone <adres-repozytorium>
 cd <katalog-repozytorium>
-cmake --preset dev
-cmake --build --preset dev
+cmake --list-presets
+cmake --preset debug
+cmake --build --preset debug --parallel
 ```
 
-Domyślna lokalizacja programu to `build/dev/src/Debug/OpenGLGP.exe` dla
-wielokonfiguracyjnego generatora Visual Studio oraz `build/dev/src/OpenGLGP`
-dla typowego jednokonfiguracyjnego generatora na Linuxie.
-
-Jeżeli projekt wymaga dodatkowego kroku, opisz go tutaj: `<opis / brak>`.
-
-## Uruchamianie
-
-Tryb interaktywny:
+Na Windows te same kroki można wykonać skrótem:
 
 ```text
-<ścieżka-do-programu>/OpenGLGP
+.\setup_project.bat
+```
+
+Bez argumentu skrypt używa presetu `debug`. Aby zbudować wariant Release,
+podaj nazwę presetu:
+
+```text
+.\setup_project.bat release
+```
+
+Skrypt konfiguruje i buduje projekt, ale nie uruchamia testów.
+
+Preset `debug` służy do codziennej pracy, diagnostyki i korzystania
+z callbacku debugowego OpenGL.
+
+Uruchom program:
+
+```text
+# Windows z generatorem Visual Studio
+.\build\debug\src\Debug\OpenGLGP.exe
+
+# Linux z generatorem jednokonfiguracyjnym
+./build/debug/src/OpenGLGP
 ```
 
 Wymagane argumenty lub znane ograniczenia: `<opis / brak>`.
+
+Domyślne lokalizacje pliku wykonywalnego wynikają z użytego generatora:
+
+- Debug, generator wielokonfiguracyjny: `build/debug/src/Debug/OpenGLGP.exe`;
+- Debug, generator jednokonfiguracyjny: `build/debug/src/OpenGLGP`;
+- Release, generator wielokonfiguracyjny: `build/release/src/Release/`;
+- Release, generator jednokonfiguracyjny: `build/release/src/`.
+
+Dodatkowy krok wymagany po zbudowaniu projektu: `<opis / brak>`.
+
+## Struktura projektu i zasoby
+
+- `src/framework/` — dostarczona infrastruktura okna, pętli i diagnostyki;
+- `src/project/` — kod właściwy projektu;
+- `res/` — shadery, modele i tekstury świata;
+- `tests/` — testy kodu CPU.
+
+Własne pliki `.c`, `.cpp`, `.h` i `.hpp` umieszczaj w `src/project/` albo
+w jego podkatalogach. Zasoby porządkuj według typów:
+
+- shadery w `res/shaders/`;
+- tekstury w `res/textures/`;
+- modele i ich materiały w `res/models/`.
+
+CMake automatycznie wykrywa nowe pliki źródłowe w całym `src/` dzięki
+`GLOB_RECURSE CONFIGURE_DEPENDS`. Nie dopisuj ich ręcznie do
+`src/CMakeLists.txt` — po dodaniu pliku wystarczy ponownie zbudować projekt.
+Zawartość `res/` jest kopiowana obok pliku wykonywalnego podczas budowania.
+
+Nietypowe katalogi lub pliki: `<opis albo brak>`.
+
+## Co zapewnia framework
+
+Kod w `src/framework/` przygotowuje wspólną infrastrukturę aplikacji.
+Student nie musi samodzielnie pisać:
+
+- inicjalizacji i zamykania GLFW, GLAD oraz ImGui;
+- tworzenia okna 1280×720 i kontekstu OpenGL 4.5 Core Profile;
+- głównej pętli aplikacji, odpytywania zdarzeń i wymiany buforów;
+- obliczania czasu klatki i numerowania klatek;
+- pobierania rzeczywistego rozmiaru framebufferu i ustawiania viewportu;
+- oczekiwania, gdy okno jest zminimalizowane i framebuffer ma rozmiar 0×0;
+- debug contextu i callbacku komunikatów OpenGL w konfiguracji `debug`;
+- sprawdzania wersji OpenGL/GLSL oraz podstawowych limitów GPU;
+- integracji ImGui z GLFW i OpenGL.
+
+Framework udostępnia również:
+
+- `AssetLocator` — wyszukiwanie plików względem katalogu `res/`;
+- `ShaderCompiler` — odczyt, kompilację shaderów i linkowanie programu wraz
+  z pełnym komunikatem błędu; zwrócone uchwyty OpenGL nadal muszą być
+  zwalniane przez kod studenta;
+- `--diagnostics` — raport dostawcy, renderera, wersji OpenGL/GLSL, profilu,
+  debug contextu, obsługi sRGB, timer queries, DSA i limitów zasobów;
+- `--diagnostics-json <plik>` — zapis tego samego raportu do JSON;
+- biblioteki GLFW, GLAD, GLM, ImGui, Assimp z importerami OBJ/FBX/glTF,
+  stb_image i spdlog.
+
+Framework nie implementuje elementów ocenianych w zadaniach. Student nadal
+tworzy między innymi teren, bufory i VAO, kamerę, tekstury, import modeli,
+graf sceny, oświetlenie, instancing, cienie i postprocessing. Kod dostarczony
+w `src/framework/` nie jest zaliczany jako część pakietu Modern OpenGL.
+
+## Punkt wejścia kodu projektu
+
+Kod projektu należy rozwijać od klasy `src/project/Project`. Framework wywołuje
+w każdej klatce:
+
+```cpp
+void update(const framework::FrameContext& frame);
+void render(const framework::FrameContext& frame);
+void drawGui();
+```
+
+`FrameContext` przekazuje:
+
+- `deltaSeconds`, `elapsedSeconds` i `frameIndex`;
+- szerokość i wysokość framebufferu;
+- wskaźnik `GLFWwindow*` potrzebny do obsługi wejścia;
+- flagi `uiWantsMouse` i `uiWantsKeyboard`, informujące, czy wejście jest
+  aktualnie przechwycone przez ImGui.
 
 ## Sterowanie
 
@@ -128,89 +163,81 @@ Wymagane argumenty lub znane ograniczenia: `<opis / brak>`.
 - Najważniejsze kontrolki ImGui: `<lista>`
 - Przełączniki diagnostyczne: `<lista>`
 
-## Hierarchia świata
+## Diagnostyka
 
-Opisz zależności parent–child obiektu centralnego oraz grup sceny. Przykładowy format:
+### Diagnostyka środowiska
+
+Raport środowiska można wyświetlić po zbudowaniu wariantu Debug:
 
 ```text
-World
-├── Terrain
-├── InstancedGroup
-└── CentralObject
-    ├── Body
-    └── AnimatedPart
+# Windows
+.\build\debug\src\Debug\OpenGLGP.exe --diagnostics
+
+# Linux
+./build/debug/src/OpenGLGP --diagnostics
 ```
 
-Sposób wyznaczania transformacji globalnej i elementy animowane: `<krótki opis>`.
+Raport musi potwierdzić OpenGL 4.5 Core Profile i GLSL 450.
+Najważniejsze wartości z raportu:
 
-## Potok renderowania
+- `GL_VENDOR`: `<wartość>`;
+- `GL_RENDERER`: `<wartość>`;
+- `GL_VERSION`: `<wartość>`;
+- `GL_SHADING_LANGUAGE_VERSION`: `<wartość>`;
+- profil i debug context: `<wartość>`;
+- domyślny framebuffer sRGB: `<tak/nie>`;
+- baseline OpenGL 4.5 Core/GLSL 450: `<spełniony/niespełniony>`.
 
-Kolejność passów:
+Raport można również zapisać do pliku JSON:
 
-1. `<pass>`
-2. `<pass>`
-3. `<pass>`
+```text
+<ścieżka-do-programu>/OpenGLGP --diagnostics-json <plik>
+```
 
-Obsługa HDR, tone mappingu i sRGB: `<wskaż, gdzie następuje dekodowanie, operacje liniowe i dokładnie jedna konwersja wyniku>`.
+### Diagnostyka renderowania
 
-Sposób renderowania ImGui bez podwójnej konwersji sRGB: `<opis>`.
+- Tryb debugowy OpenGL: `<sposób włączenia>`
+- Podglądy buforów i tekstur: `<kontrolki>`
+- Markery RenderDoc: `<najważniejsze zdarzenia>`
+- Liczniki CPU/GPU: `<lista>`
 
-## Pomiary
+## Budowanie Release i charakterystyka wydajności
 
-Każdy wynik podaj razem z konfiguracją sprzętu, rozdzielczością, stanem VSync, parametrami sceny i metodą pomiaru.
+Preset `release` jest zoptymalizowany i przeznaczony do końcowych pomiarów
+wydajności CPU/GPU. Nie używaj konfiguracji `debug` do porównywania
+wydajności.
+
+```text
+cmake --preset release
+cmake --build --preset release --parallel
+```
+
+Konfiguracja pomiaru: `<sprzęt, rozdzielczość, VSync i parametry sceny>`.
 
 - Wariant: `<np. 1 000 instancji>`
-  - draw calle: `<liczba>`
+  - liczba draw calli: `<liczba>`
   - czas CPU: `<wynik i metoda agregacji>`
   - czas GPU: `<wynik i metoda>`
 - Wariant: `<np. 10 000 instancji>`
-  - draw calle: `<liczba>`
+  - liczba draw calli: `<liczba>`
   - czas CPU: `<wynik>`
   - czas GPU: `<wynik>`
 - Wariant: `<np. 100 000 instancji>`
-  - draw calle: `<liczba>`
+  - liczba draw calli: `<liczba>`
   - czas CPU: `<wynik>`
   - czas GPU: `<wynik>`
 
-Wnioski: `<krótka interpretacja wąskiego gardła i porównania>`.
+Wnioski: `<krótka interpretacja wąskiego gardła i porównania albo brak>`.
 
-Pomiary wydajności wykonuj na fizycznym GPU.
+## Zasoby zewnętrzne
 
-## Assety i licencje
+Modele, tekstury i inne zasoby potrzebne do uruchomienia projektu:
 
-Nie twórz osobnej bibliografii ani pliku `ASSETS.md`. Jeśli zewnętrzny asset ma plik licencji, pozostaw go obok assetu. Jeśli warunki wymagają oznaczenia autora, zachowaj tę informację w tym samym katalogu co asset.
+- `<ścieżka>` — `<przeznaczenie, źródło i licencja>`
 
-Nietypowe informacje konieczne do poprawnego załadowania assetów: `<opis / brak>`.
+Nietypowe informacje konieczne do poprawnego załadowania zasobów:
+`<opis albo brak>`.
 
-## RenderDoc i materiały diagnostyczne
+## Znane ograniczenia
 
-- Capture referencyjny: `<ścieżka lub sposób odtworzenia>`
-- Draw call terenu: `<zdarzenie/marker>`
-- Pass mapy cieni: `<zdarzenie/marker>`
-- Instanced draw: `<zdarzenie/marker>`
-- HDR attachment i final pass: `<zdarzenie/marker>`
-- Debugowe etykiety zasobów/passów: `<opis>`
-
-Pliki capture mogą być duże. Nie commituj ich, jeśli prowadzący nie wymaga tego wprost; podaj sposób odtworzenia klatki.
-
-## Oddane wersje
-
-- Zadanie 1: tag `zadanie-1`, SHA `<pełny SHA>`
-- Zadanie 2: tag `zadanie-2`, SHA `<pełny SHA>`
-- Zadanie 3: tag `zadanie-3`, SHA `<pełny SHA>`
-- Zadanie 4: tag `zadanie-4`, SHA `<pełny SHA>`
-- Poprawki: `<tag i SHA / brak>`
-
-Zgłoszonego taga nie przesuwaj. Poprawki oznaczaj np. `zadanie-2-poprawa-1`. O terminowości decyduje kompletne zgłoszenie na zewnętrznej platformie przedmiotu.
-
-## Dokumentacja przedmiotu
-
-- [Opis kampanii](.assignments/README.md)
-- [Zasady zaliczenia](.assignments/Zasady_zaliczenia.md)
-- [Biomy](.assignments/Biomy.md)
-- [Karty rozszerzeń](.assignments/Karty_rozszerzen.md)
-- [CI i oddawanie zadań](.assignments/CI_i_oddawanie.md)
-- [Zadanie 1 — Fundament świata](.assignments/Zadanie_1_Fundament_swiata.md)
-- [Zadanie 2 — Żywy świat](.assignments/Zadanie_2_Zywy_swiat.md)
-- [Zadanie 3 — Skala i światło](.assignments/Zadanie_3_Skala_i_swiatlo.md)
-- [Zadanie 4 — Final Frame](.assignments/Zadanie_4_Final_Frame.md)
+- `<ograniczenie albo brak>`

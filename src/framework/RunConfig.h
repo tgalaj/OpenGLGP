@@ -31,9 +31,7 @@ struct ParseResult
     }
 };
 
-[[nodiscard]] ParseResult parseRunConfig(
-    std::span<const std::string_view> arguments,
-    std::filesystem::path executablePath = {});
+[[nodiscard]] ParseResult parseRunConfig(std::span<const std::string_view> arguments, std::filesystem::path executablePath = {});
 [[nodiscard]] ParseResult parseRunConfig(int argc, char* argv[]);
 [[nodiscard]] std::string_view commandLineHelp() noexcept;
 

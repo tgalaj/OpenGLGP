@@ -21,17 +21,11 @@ struct ShaderBuildResult
 class ShaderCompiler
 {
 public:
-    [[nodiscard]] static ShaderBuildResult compileFile(
-        unsigned int shaderType,
-        const std::filesystem::path& path);
-    [[nodiscard]] static ShaderBuildResult linkProgram(
-        std::span<const unsigned int> shaders);
+    [[nodiscard]] static ShaderBuildResult compileFile(unsigned int shaderType, const std::filesystem::path& path);
+    [[nodiscard]] static ShaderBuildResult linkProgram(std::span<const unsigned int> shaders);
 
 private:
-    [[nodiscard]] static ShaderBuildResult compileSource(
-        unsigned int shaderType,
-        const std::string& source,
-        const std::filesystem::path& sourcePath);
+    [[nodiscard]] static ShaderBuildResult compileSource(unsigned int shaderType, const std::string& source, const std::filesystem::path& sourcePath);
 };
 
 } // namespace openglgp::framework

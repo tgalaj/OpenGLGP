@@ -15,15 +15,6 @@
       }
     },
     {
-      "name": "dev",
-      "displayName": "Developer build",
-      "inherits": "base",
-      "binaryDir": "${sourceDir}/build/dev",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
       "name": "debug",
       "displayName": "Debug build",
       "inherits": "base",
@@ -53,11 +44,6 @@
   ],
   "buildPresets": [
     {
-      "name": "dev",
-      "configurePreset": "dev",
-      "configuration": "Debug"
-    },
-    {
       "name": "debug",
       "configurePreset": "debug",
       "configuration": "Debug"
@@ -74,14 +60,6 @@
     }
   ],
   "testPresets": [
-    {
-      "name": "dev",
-      "configurePreset": "dev",
-      "configuration": "Debug",
-      "output": {
-        "outputOnFailure": true
-      }
-    },
     {
       "name": "debug",
       "configurePreset": "debug",

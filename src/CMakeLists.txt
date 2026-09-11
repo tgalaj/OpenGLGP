@@ -1,7 +1,9 @@
-add_library(openglgp_framework_core STATIC
-  framework/AssetLocator.cpp
-  framework/RunConfig.cpp
+set(OPENGLGP_FRAMEWORK_CORE_SOURCES
+  "${CMAKE_CURRENT_SOURCE_DIR}/framework/AssetLocator.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/framework/RunConfig.cpp"
 )
+
+add_library(openglgp_framework_core STATIC ${OPENGLGP_FRAMEWORK_CORE_SOURCES})
 target_include_directories(openglgp_framework_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_compile_features(openglgp_framework_core PUBLIC cxx_std_20)
 target_compile_definitions(
@@ -10,22 +12,21 @@ target_compile_definitions(
 )
 openglgp_enable_warnings(openglgp_framework_core)
 
-add_executable(${PROJECT_NAME}
-  main.cpp
-  framework/Application.cpp
-  framework/Application.h
-  framework/AssetLocator.h
-  framework/FrameContext.h
-  framework/GlDiagnostics.cpp
-  framework/GlDiagnostics.h
-  framework/RunConfig.h
-  framework/ShaderCompiler.cpp
-  framework/ShaderCompiler.h
-  framework/Window.cpp
-  framework/Window.h
-  project/Project.cpp
-  project/Project.h
+# This template intentionally uses CONFIGURE_DEPENDS so students can add files
+# under src without editing CMakeLists.txt. CMake will regenerate the build
+# system when matching files appear or disappear.
+file(GLOB_RECURSE OPENGLGP_SOURCE_FILES CONFIGURE_DEPENDS
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
 )
+
+list(REMOVE_ITEM OPENGLGP_SOURCE_FILES ${OPENGLGP_FRAMEWORK_CORE_SOURCES})
+
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${OPENGLGP_SOURCE_FILES})
+
+add_executable(${PROJECT_NAME} ${OPENGLGP_SOURCE_FILES})
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 target_compile_definitions(

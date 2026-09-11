@@ -32,14 +32,13 @@ bool glslAtLeast450(const std::string& version)
 
     int major = 0;
     int minor = 0;
-    const auto majorResult =
-        std::from_chars(version.data(), version.data() + separator, major);
+    const auto majorResult = std::from_chars(version.data(), version.data() + separator, major);
     const auto minorStart = version.data() + separator + 1;
-    const auto minorResult =
-        std::from_chars(minorStart, version.data() + version.size(), minor);
-    return majorResult.ec == std::errc{} &&
+    const auto minorResult = std::from_chars(minorStart, version.data() + version.size(), minor);
+
+    return majorResult.ec  == std::errc{}                &&
            majorResult.ptr == version.data() + separator &&
-           minorResult.ec == std::errc{} &&
+           minorResult.ec  == std::errc{}                &&
            (major > 4 || (major == 4 && minor >= 50));
 }
 
@@ -88,14 +87,7 @@ const char* jsonBoolean(const bool value) noexcept
     return value ? "true" : "false";
 }
 
-void APIENTRY debugMessageCallback(
-    GLenum,
-    const GLenum type,
-    GLuint,
-    const GLenum severity,
-    GLsizei,
-    const GLchar* message,
-    const void*)
+void APIENTRY debugMessageCallback(GLenum, const GLenum type, GLuint, const GLenum severity, GLsizei, const GLchar* message, const void*)
 {
     const char* text = message != nullptr ? message : "OpenGL debug message without text";
     if (type == GL_DEBUG_TYPE_ERROR || severity == GL_DEBUG_SEVERITY_HIGH)
@@ -258,8 +250,7 @@ GlReport collectGlReport(const bool srgbFramebuffer)
         &report.maxCombinedTextureImageUnits);
     glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &report.maxVertexAttribs);
 
-    report.timerQuerySupport =
-        glad_glQueryCounter != nullptr && glad_glGetQueryObjectui64v != nullptr;
+    report.timerQuerySupport = glad_glQueryCounter != nullptr && glad_glGetQueryObjectui64v != nullptr;
     report.dsaFunctionsAvailable =
         glad_glCreateBuffers != nullptr &&
         glad_glNamedBufferStorage != nullptr &&
@@ -282,13 +273,12 @@ void installGlDebugCallback()
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
     glDebugMessageCallback(debugMessageCallback, nullptr);
-    glDebugMessageControl(
-        GL_DONT_CARE,
-        GL_DONT_CARE,
-        GL_DEBUG_SEVERITY_NOTIFICATION,
-        0,
-        nullptr,
-        GL_FALSE);
+    glDebugMessageControl(GL_DONT_CARE,
+                          GL_DONT_CARE,
+                          GL_DEBUG_SEVERITY_NOTIFICATION,
+                          0,
+                          nullptr,
+                          GL_FALSE);
 }
 
 void logGlInfo(const GlReport& report)
@@ -297,17 +287,13 @@ void logGlInfo(const GlReport& report)
     spdlog::info("OpenGL renderer: {}", report.renderer);
     spdlog::info("OpenGL version: {}", report.glVersion);
     spdlog::info("GLSL version: {}", report.glslVersion);
-    spdlog::info(
-        "Context: Core={}, Debug={}, sRGB={}",
-        report.coreProfile,
-        report.debugContext,
-        report.srgbFramebuffer);
+    spdlog::info("Context: Core={}, Debug={}, sRGB={}",
+                 report.coreProfile,
+                 report.debugContext,
+                 report.srgbFramebuffer);
 }
 
-bool writeGlReportJson(
-    const GlReport& report,
-    const std::filesystem::path& path,
-    std::string& error)
+bool writeGlReportJson(const GlReport& report, const std::filesystem::path& path, std::string& error)
 {
     std::error_code filesystemError;
     if (!path.parent_path().empty())

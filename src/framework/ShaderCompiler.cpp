@@ -87,15 +87,10 @@ ShaderBuildResult ShaderCompiler::compileSource(
     if (compiled != GL_TRUE)
     {
         glDeleteShader(shader);
-        return {
-            0,
-            "Shader compilation failed for " + sourcePath.string() +
-                (log.empty() ? std::string{} : ":\n" + log)};
+        return { 0, "Shader compilation failed for " + sourcePath.string() + (log.empty() ? std::string{} : ":\n" + log) };
     }
 
-    return {
-        shader,
-        log.empty() ? std::string{} : "Shader compiler output for " + sourcePath.string() + ":\n" + log};
+    return { shader, log.empty() ? std::string{} : "Shader compiler output for " + sourcePath.string() + ":\n" + log };
 }
 
 ShaderBuildResult ShaderCompiler::linkProgram(const std::span<const unsigned int> shaders)
@@ -115,7 +110,9 @@ ShaderBuildResult ShaderCompiler::linkProgram(const std::span<const unsigned int
     {
         glAttachShader(program, shader);
     }
+    
     glLinkProgram(program);
+
     for (const GLuint shader : shaders)
     {
         glDetachShader(program, shader);
@@ -127,15 +124,10 @@ ShaderBuildResult ShaderCompiler::linkProgram(const std::span<const unsigned int
     if (linked != GL_TRUE)
     {
         glDeleteProgram(program);
-        return {
-            0,
-            "Shader program link failed" +
-                (log.empty() ? std::string(".") : ":\n" + log)};
+        return { 0, "Shader program link failed" + (log.empty() ? std::string(".") : ":\n" + log) };
     }
 
-    return {
-        program,
-        log.empty() ? std::string{} : "Shader linker output:\n" + log};
+    return { program, log.empty() ? std::string{} : "Shader linker output:\n" + log };
 }
 
 } // namespace openglgp::framework
