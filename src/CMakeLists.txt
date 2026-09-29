@@ -1,48 +1,75 @@
-# Add source files
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
-	 *.c
-	 *.cpp)
-	
-# Add header files
-file(GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS
-	 *.h
-	 *.hpp)
-	 
-# Search for the assets files
-file(GLOB_RECURSE ASSETS_FILES CONFIGURE_DEPENDS
-	 ${CMAKE_SOURCE_DIR}/res/*.*)
+set(OPENGLGP_FRAMEWORK_CORE_SOURCES
+  "${CMAKE_CURRENT_SOURCE_DIR}/framework/AssetLocator.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/framework/RunConfig.cpp"
+)
 
-set_source_files_properties(${ASSETS_FILES} PROPERTIES HEADER_FILE_ONLY TRUE)
+add_library(openglgp_framework_core STATIC ${OPENGLGP_FRAMEWORK_CORE_SOURCES})
+target_include_directories(openglgp_framework_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_compile_features(openglgp_framework_core PUBLIC cxx_std_20)
+target_compile_definitions(
+  openglgp_framework_core
+  PRIVATE OPENGLGP_SOURCE_ASSET_DIR="${CMAKE_SOURCE_DIR}/res"
+)
+openglgp_enable_warnings(openglgp_framework_core)
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})						   
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADER_FILES})
-source_group(TREE ${CMAKE_SOURCE_DIR}         FILES ${ASSETS_FILES})
+# This template intentionally uses CONFIGURE_DEPENDS so students can add files
+# under src without editing CMakeLists.txt. CMake will regenerate the build
+# system when matching files appear or disappear.
+file(GLOB_RECURSE OPENGLGP_SOURCE_FILES CONFIGURE_DEPENDS
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
+)
 
-# Define the executable
-add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES} ${ASSETS_FILES})
+list(REMOVE_ITEM OPENGLGP_SOURCE_FILES ${OPENGLGP_FRAMEWORK_CORE_SOURCES})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
-target_compile_definitions(${PROJECT_NAME} PRIVATE LIBRARY_SUFFIX="")
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${OPENGLGP_SOURCE_FILES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-												  ${glad_SOURCE_DIR}
-												  ${stb_image_SOURCE_DIR}
-												  ${imgui_SOURCE_DIR})
+add_executable(${PROJECT_NAME} ${OPENGLGP_SOURCE_FILES})
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} glad)
-target_link_libraries(${PROJECT_NAME} stb_image)
-target_link_libraries(${PROJECT_NAME} assimp)
-target_link_libraries(${PROJECT_NAME} glfw)
-target_link_libraries(${PROJECT_NAME} imgui)
-target_link_libraries(${PROJECT_NAME} spdlog)
-target_link_libraries(${PROJECT_NAME} glm::glm)
-
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-				   COMMAND ${CMAKE_COMMAND} -E create_symlink 
-				   ${CMAKE_SOURCE_DIR}/res 
-				   ${CMAKE_CURRENT_BINARY_DIR}/res)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
+target_compile_definitions(
+  ${PROJECT_NAME}
+  PRIVATE
+    GLFW_INCLUDE_NONE
+    $<$<CONFIG:Debug>:OPENGLGP_DEBUG_BUILD=1>
+)
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_link_libraries(
+  ${PROJECT_NAME}
+  PRIVATE
+    OpenGL::GL
+    glad
+    assimp
+    glfw
+    glm::glm
+    imgui
+    openglgp_framework_core
+    spdlog::spdlog
+    stb_image
+)
+openglgp_enable_warnings(${PROJECT_NAME})
 
 if(MSVC)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC NOMINMAX)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+endif()
+
+set_target_properties(
+  ${PROJECT_NAME}
+  openglgp_framework_core
+  PROPERTIES FOLDER "OpenGLGP"
+)
+
+if(EXISTS "${CMAKE_SOURCE_DIR}/res")
+  add_custom_command(
+    TARGET ${PROJECT_NAME}
+    POST_BUILD
+    COMMAND
+      ${CMAKE_COMMAND} -E copy_directory
+      "${CMAKE_SOURCE_DIR}/res"
+      "$<TARGET_FILE_DIR:${PROJECT_NAME}>/res"
+    COMMENT "Copying runtime resources"
+    VERBATIM
+  )
 endif()

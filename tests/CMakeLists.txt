@@ -1,0 +1,7 @@
+add_executable(openglgp_framework_tests FrameworkTests.cpp)
+target_compile_features(openglgp_framework_tests PRIVATE cxx_std_20)
+target_link_libraries(openglgp_framework_tests PRIVATE openglgp_framework_core)
+openglgp_enable_warnings(openglgp_framework_tests)
+set_target_properties(openglgp_framework_tests PROPERTIES FOLDER "OpenGLGP/tests")
+
+add_test(NAME framework.contracts COMMAND openglgp_framework_tests)
